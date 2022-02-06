@@ -1,0 +1,128 @@
+﻿@inject Microsoft.AspNetCore.Identity.SignInManager<CoronaPredictionsAspNetCore.Areas.Identity.Data.ApplicationUser> signInManager;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Corona Predictions Asp .Net Core</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/fontawesome.css" />
+    <script src="@Url.Content("~/Scripts/jquery-ui.min.js")" type="text/javascript"></script>
+    <link href="@Url.Content("~/Scripts/jquery-ui.min.css")" rel="stylesheet" type="text/css" />
+    <link href="~/lib/font-awesome/css/fontawesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand navbar-left" asp-area="" asp-controller="Home" asp-action="Index">Corona Predictions</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial.cshtml" />
+                    <ul class="navbar-nav flex-grow-1">
+                        @*<li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </li>*@
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-danger" href="#" id="navbarDropdownMenuLink"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Manage
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListUsers">
+                                        Users
+                                    </a>
+                                    <a class="dropdown-item" asp-controller="Administration" asp-action="ListRoles">
+                                        Roles
+                                    </a>
+                                </div>
+                            </li>
+                            @*<li class="nav-item">
+                <a class="nav-link text-danger" asp-area="" asp-controller="Administration" asp-action="ListRoles">
+                    Manage Roles
+                </a>
+            </li>*@
+                        }
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Players" asp-action="Index">
+                                    <i class="fas fa-user"></i> Players
+                                </a>
+                            </li>
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="PointSystems" asp-action="Index">
+                                <i class="fas fa-chart-bar"></i> Point System
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="RealCases" asp-action="Index">
+                                <i class="fas fa-clinic-medical"></i> Real Cases
+                            </a>
+                        </li>
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Predictions" asp-action="Index">
+                                    <i class="fas fa-balance-scale"></i> Predictions
+                                </a>
+                            </li>
+                        }
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Standings" asp-action="OverallStandings">
+                                    <i class="fas fa-trophy"></i> Overall Standings
+                                </a>
+                            </li>
+                        }
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User") || User.IsInRole("Admin")))
+                        {
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="PlayerOfDay" asp-action="PlayersOfTheDay">
+                            <i class="fas fa-star"></i> Player(s) Of the Day
+                        </a>
+                    </li>
+                        }
+                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - CoronaPredictionsAspNetCore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <environment include=”Development”>
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+    </environment>
+    <environment exclude=”Development”>
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    </environment>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
